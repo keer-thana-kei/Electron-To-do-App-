@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Todo App</title>
+  <link rel="icon" type="image/jpeg" href="icon.jpg">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Custom Title Bar -->
+  <div class="custom-titlebar">
+    <div class="titlebar-content">
+      <img src="icon.jpg" alt="icon" class="titlebar-icon">
+      <span class="titlebar-title">Todo App</span>
+    </div>
+    <div class="window-controls">
+      <button class="control-btn minimize-btn" onclick="window.electronAPI.minimizeWindow()">
+        <span>−</span>
+      </button>
+      <button class="control-btn maximize-btn" onclick="window.electronAPI.maximizeWindow()">
+        <span>□</span> 
+      </button>
+      <button class="control-btn close-btn" onclick="window.electronAPI.closeWindow()">
+        <span>×</span>
+      </button>
+    </div>
+  </div>
+
+<!-- Main App Layout with Sidebar -->
+<div class="app-layout">
+  <!-- Menu Toggle Button - Always Visible -->
+  <button 
+    id="menuToggle" 
+    class="menu-toggle-btn" 
+    type="button"
+    aria-label="Toggle sidebar menu"
+    onclick="toggleSidebar()"
+  >
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+
+  <!-- Sidebar Navigation -->
+  <aside class="sidebar hidden" id="sidebar">
+    <div class="sidebar-header">
+      <h3>📁 CATEGORIES</h3>
+    </div>
+    
+    <nav class="sidebar-nav">
+      <button type="button" class="nav-item active" onclick="selectCategory('all', '📁 All Categories', event)">
+        <span class="nav-icon">📁</span>
+        <span class="nav-text">All</span>
+        <span class="nav-count" id="count-all">0</span>
+      </button>
+      <button type="button" class="nav-item" onclick="selectCategory('work', '💼 Work', event)">
+        <span class="nav-icon">💼</span>
+        <span class="nav-text">Work</span>
+        <span class="nav-count" id="count-work">0</span>
+      </button>
+      <button type="button" class="nav-item" onclick="selectCategory('personal', '🏠 Personal', event)">
+        <span class="nav-icon">🏠</span>
+        <span class="nav-text">Personal</span>
+        <span class="nav-count" id="count-personal">0</span>
+      </button>
+      <button type="button" class="nav-item" onclick="selectCategory('urgent', '🔥 Urgent', event)">
+        <span class="nav-icon">🔥</span>
+        <span class="nav-text">Urgent</span>
+        <span class="nav-count" id="count-urgent">0</span>
+      </button>
+      <button type="button" class="nav-item" onclick="selectCategory('other', '📌 Other', event)">
+        <span class="nav-icon">📌</span>
+        <span class="nav-text">Other</span>
+        <span class="nav-count" id="count-other">0</span>
+      </button>
+    </nav>
+
+    <div class="sidebar-divider"></div>
+
+    <div class="sidebar-header">
+      <h3>🎯 PRIORITY</h3>
+    </div>
+
+    <nav class="sidebar-nav">
+      <button type="button" class="nav-item active" onclick="selectPriority('all', event)">
+        <span class="nav-icon">⭐</span>
+        <span class="nav-text">All</span>
+      </button>
+      <button type="button" class="nav-item" onclick="selectPriority('high', event)">
+        <span class="nav-icon">🔴</span>
+        <span class="nav-text">High</span>
+      </button>
+      <button type="button" class="nav-item" onclick="selectPriority('medium', event)">
+        <span class="nav-icon">🟠</span>
+        <span class="nav-text">Medium</span>
+      </button>
+      <button type="button" class="nav-item" onclick="selectPriority('low', event)">
+        <span class="nav-icon">🟢</span>
+        <span class="nav-text">Low</span>
+      </button>
+    </nav>
+
+    <div class="sidebar-footer">
+      <button type="button" id="darkModeBtn" class="dark-mode-btn-sidebar">
+        <span>🌙</span>
+        <span>Dark Mode</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- Main Content Area -->
+  <main class="main-content" id="mainContent">
+    <!-- rest of your content stays the same -->
+    <div class="content-header">
+      <h1 class="title" id="pageTitle" >My Todo List</h1>
+    </div>
+
+    <!-- Search Bar -->
+    <div class="search-section">
+      <input 
+        type="text" 
+        id="searchInput" 
+        placeholder="🔍 Search tasks..." 
+        class="search-input"
+        aria-label="Search tasks"
+      />
+    </div>
+    
+    <!-- Add Todo Section -->
+    <div class="input-section">
+      <input  
+        type="text" 
+        id="todoInput" 
+        placeholder="Add a new task..." 
+        class="todo-input"
+        aria-label="Task name"
+      />
+      <select id="categorySelect" class="category-select" aria-label="Select category">
+        <option value="work">💼 Work</option>
+        <option value="personal">🏠 Personal</option>
+        <option value="urgent">🔥 Urgent</option>
+        <option value="other">📌 Other</option>
+      </select>
+      <select id="prioritySelect" class="priority-select" aria-label="Select priority">
+        <option value="low">Low</option>
+        <option value="medium" selected>Medium</option>
+        <option value="high">High</option>
+      </select>
+      <input 
+        type="date" 
+        id="dueDateInput" 
+        class="date-input"
+        aria-label="Due date"
+      />
+      <button id="addBtn" type="button" class="add-btn" aria-label="Add task">
+        <span class="icon">+</span>
+        Add
+      </button>
+    </div>
+
+    <div id="todoList" class="todo-list"></div>
+
+    <div id="stats" class="stats"></div>
+  </main>
+</div>
+
+<script src="renderer.js"></script>
+</body>
+</html>
